@@ -7,10 +7,10 @@ use encoding "utf-8";
 
 my $FILE_PATH = $ARGV[0]; #file path
 my $ORG_FILE = "jawiki-latest-all-titles-in-ns0";
-my $WIKI_FILE = "wikipedia.test.csv";
+my $WIKI_FILE = "wikipedia.csv";
 
 open (my $in, "<", "$FILE_PATH/$ORG_FILE"); #input wikipedia file
-open (my $out, ">", "$WIKI_FILE"); #output convert csv wikipedia file
+open (my $out, ">", "./$WIKI_FILE"); #output convert csv wikipedia file
 binmode $out, ":utf8"; #output defined utf8
 
 
@@ -32,6 +32,7 @@ while (my $line = <$in>){
 }
 =cut
 
+#=pod
 for(<$in>) {
   chomp($_);
   print $_."\n";
@@ -47,6 +48,7 @@ for(<$in>) {
     print $out "$_,0,0,".max(-36000,-400 * (length^1.5)).",名詞,固有名詞,*,*,*,*,$_,*,*,wikipedia_word,\n";
   }
 }
+#=cut
 
 close($out);
 close($in);

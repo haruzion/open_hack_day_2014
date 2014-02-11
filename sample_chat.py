@@ -53,16 +53,17 @@ class DocomoChat(object):
  
  
 def main():
-    api_key = '514650556a66486c6e514e4e6d433545525a313951513073356b7a6f6144595230776c415a596b30577437'
+    api_key = '514650556a66486c6e514e4e6d433545525a313951513073356b7a6f6144595230776c415a596b30577437' #api(nakashin)
     chat = DocomoChat(api_key)
-    resp = chat.set_name('nakashin', '肉体言語')
-    print '相手　 : %s'%(resp)
+    resp = chat.set_name('naka', 'ナカ')
+    print '相手（神を殺した男) : %s'%(resp)
     message = ''
     while message != 'バイバイ':
-        message = raw_input('あなた : ')
+        message = raw_input('あなた(暗黒微笑) : ')
         resp = chat.send_and_get(message)
-        print '相手　 : %s'%(resp)
- 
- 
+        print '相手(寂しそうな横顔) : %s'%(resp)
+    
+
+
 if __name__ == '__main__':
     main()
