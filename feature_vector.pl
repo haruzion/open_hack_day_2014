@@ -2,6 +2,7 @@
 #形態素解析をして、名詞を抜き出すスクリプト
 
 use MeCab;
+#use utf-8;
 #use Data::Dumper;
 
 sub main{
@@ -18,7 +19,9 @@ sub main{
         }
     }
     #output
-    print join(",",@result_ary)."\n";
+    open (my $fh_out, ">","$file_path.out");
+    print $fh_out join("\n",@result_ary);
+    close ($fh_out);
 
     close($fh);
 }
@@ -33,13 +36,21 @@ sub parse_text(){
     while ($node = $node->{next}){
         my $surface = $node->{surface};
         my $feature = $node->{feature};
-        #表層形,品詞,品詞細分類1,品詞細分類2,品詞細分類3,活用形,活用型,原形,読み,発音
-        my @feature_meta = split (/,/,$feature);
         #my $char_type = $node->{char_type};
+        ##表層形,品詞,品詞細分類1,品詞細分類2,品詞細分類3,活用形,活用型,原形,読み,発音##
+        my @feature_meta = split (/,/,$feature);
 
         #名詞のみを抽出
-        if ($feature_meta[0] eq "名詞") {
-            push (@result_ary, $surface);
+        if ($feature_meta[0] eq "名詞" && $feature_meta[1] ne "サ変接続" && $feature_meta[2] ne "数" && $feature_meta[1] ne "非自立" && $feature_meta[1] ne "代名詞") {
+            if ( $surface =~ /^[a-zA-Z0-9]/){
+                print "filtering $surface\n";
+            }else{
+                if (length ($surface) <= 3){
+                    print "filtering 2 $surface\n";
+                }else{
+                    push (@result_ary, "$surface\t$feature");
+                }
+            }
         }
     }
     return @result_ary;
